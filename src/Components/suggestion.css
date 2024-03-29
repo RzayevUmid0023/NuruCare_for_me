@@ -1,0 +1,47 @@
+.suggestionBox{
+    width: 260px;
+    height: 60px;
+    background-color: #1E1F20;
+    margin: 10px 0;
+    margin-right: 15px;
+    border-radius: 10px;
+    display: flex;
+    border: none;
+    cursor: pointer;
+    
+
+}
+
+.suggestionBox:active{
+    opacity: 0.9;
+}
+
+.suggestionLogoBox{
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.suggestionLogo{
+    color: white;
+    width: 25px;
+    height: 25px;
+}
+
+.suggestionText{
+    width: 200px;
+    height: 60px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    margin-left: -10px;
+  }
+
+.suggestionTextContent{
+    color: white;
+    font-size: 11px;
+    text-align: left;
+}

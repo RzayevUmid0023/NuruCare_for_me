@@ -1,0 +1,35 @@
+.LoadingLogo {
+  animation: spin 6s ease-in-out infinite; /* Spin adında bir animasyon tanımlıyoruz */
+  width: 30px;
+  height: 30px;
+}
+
+.loadingContainer {
+  display: flex;
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  bottom: 20%;
+  left: 50% ;
+  transform: translateX(-50%); 
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
+  }
+  25% {
+      transform: rotate(180deg);
+  }
+  50% {
+      transform: rotate(360deg);
+  }
+  75% {
+      transform: rotate(540deg);
+  }
+  100% {
+      transform: rotate(720deg);
+  }
+}
