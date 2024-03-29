@@ -17,6 +17,11 @@ import { GiWorld ,GiHamburgerMenu  } from "react-icons/gi";
 import { GoPaperclip } from "react-icons/go";
 import { FaPlus } from "react-icons/fa6";
 
+import { FiActivity } from "react-icons/fi";
+import { LuDna } from "react-icons/lu";
+import { SiUnitednations } from "react-icons/si";
+import { SiMicrogenetics } from "react-icons/si";
+
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -219,10 +224,10 @@ function HomePage() {
                 <text className='rbtcolTitleText'>I can suggest the following for you:</text>
               </div>
               <div className='rbtcolColonium'>
-                <Suggestion title='Run my Github repo' icon={<FiGithub className='suggestionLogo' />} isCollapsed={!isHiddenBoxOpen} />
-                <Suggestion title='Debug & fix the tests in this codebase' icon={<PiBug className='suggestionLogo' />} isCollapsed={!isHiddenBoxOpen} />
-                <Suggestion title='Setup an LLM inside a Docker Container' icon={<IoCubeOutline className='suggestionLogo' />} isCollapsed={!isHiddenBoxOpen} />
-                <Suggestion title='Create a map of CA wildfires in 2023' icon={<GiWorld className='suggestionLogo' />} isCollapsed={!isHiddenBoxOpen} />
+                <Suggestion title='Heart rate balance' icon={<FiActivity className='suggestionLogo' />} isCollapsed={!isHiddenBoxOpen} />
+                <Suggestion title='Dna general information sequence' icon={<LuDna className='suggestionLogo' />} isCollapsed={!isHiddenBoxOpen} />
+                <Suggestion title='World health organization current information' icon={<SiUnitednations className='suggestionLogo' />} isCollapsed={!isHiddenBoxOpen} />
+                <Suggestion title='Individualized genetic information' icon={<SiMicrogenetics className='suggestionLogo' />} isCollapsed={!isHiddenBoxOpen} />
               </div>
             </div>
           </div>
