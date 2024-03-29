@@ -1,6 +1,6 @@
 import React from 'react'
 import './loading.css'
-import Logo from '../assets/logo.png'
+import Logo from '../assets/logo.svg'
 
 function loading() {
   return (

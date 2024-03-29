@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './HomePage.css';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo.svg';
 import user from '../assets/user.png'
 import Suggestion from '../Components/suggestion';
 import Loading from '../Components/loading';
