@@ -446,26 +446,107 @@
 
 }
 
-.hiddenBox{
-  
-  width:30%;
-  height:100%;
-  background-color: #222222;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  margin-left: 10px;
 
-
-}
-
-.hiddenBox {
+/*--------------------------------- Hidden Box ------------------------*/
+.rightAdditional {
   width: 0%;
-  transition: width 0.5s ease; /* Add transition for width change */
+  transition: width 0.5s ease;
+  border-radius: 10px !important;
+  background-color: #151515;
+  border-radius: 15px;
+  margin-left: 15px;
+
+   
 }
 
-.hiddenBox.expanded {
+.rightAdditional.expanded {
   width: 30%;
+  transition: width 0.5s ease;
+  border-radius: 10px;
+  margin-left: 15px;
+  background-color: #151515;
+  
 }
+
  
+
+.rightAdditionalContainer.expanded{
+  width: 100%;
+  height: 100%;
+   border-radius: 10px;
+   
+}
+
+ 
+.rightAdditionalLink{
+  display: none;
+ }
+
+.rightAdditionalLink.expanded{
+  width: 100%;
+  display: flex;
+  height: 40px;
+   align-items: center;
+  border-radius: 10px;
+  margin-top: 5px;
+ 
+}
+
+
+ .rightAdditionalLinkItem{
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ }
+
+ .rightAdditionalLinkItem button{
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+
+ }
+
+ .rightAdditionalLinkItem button:active{
+    opacity: 0.8;
+ }
+
+
+ .rightAdditionalContent{
+  width: 100%;
+  height: 90%;
+  background-color: #151515;
+  display: flex;
+  flex-direction: row;
+
+ }
+
+ 
+.rightAdditionalLeftContent{
+  width: 97%;
+  height: 100%;
+  background-color: #6096FF;
+  margin-right: 2px;
+  transition: width 0.5s ease;
+  
+}
+
+.rightAdditionalLeftContent.rightOpen{
+  width: 1%;
+}
+
+ 
+.rightAdditionalRightContent{
+  width: 1%;
+  height: 100%;
+  background-color: white;
+  transition: width 0.5s ease;
+
+}
+
+.rightAdditionalRightContent.rightOpen{
+    width: 97%;
+}

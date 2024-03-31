@@ -7,20 +7,9 @@ import Loading from '../Components/loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendMessageUser, sendMessageAi, getMessageData } from '../redux/messageSlice';
 
-import {  FaBookOpen } from "react-icons/fa";
-import { MdLogin   } from "react-icons/md";
-import { AiOutlineQuestionCircle } from "react-icons/ai";
-import { FiGithub } from "react-icons/fi";
-import { PiBug } from "react-icons/pi";
-import { IoCubeOutline, IoArrowForwardSharp } from "react-icons/io5";
-import { GiWorld ,GiHamburgerMenu  } from "react-icons/gi";
-import { GoPaperclip } from "react-icons/go";
-import { FaPlus } from "react-icons/fa6";
+import {FaBookOpen, MdLogin, AiOutlineQuestionCircle ,IoArrowForwardSharp, GiHamburgerMenu, GoPaperclip,FaPlus,FiActivity,LuDna, SiMicrogenetics, SiUnitednations} from '../assets/icon' 
 
-import { FiActivity } from "react-icons/fi";
-import { LuDna } from "react-icons/lu";
-import { SiUnitednations } from "react-icons/si";
-import { SiMicrogenetics } from "react-icons/si";
+ 
 
 
 function HomePage() {
@@ -30,6 +19,8 @@ function HomePage() {
 
   const [isOpen, setIsOpen] = useState(true);
   const [isHiddenBoxOpen, setIsHiddenBoxOpen] = useState(false);
+  const [isAdditionalContant, setIsAdditionalContant] = useState(false);
+
   const [aiActive, setAiActive] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [inputData, setInputData] = useState('');
@@ -51,7 +42,7 @@ function HomePage() {
 
 
   const parseMessage = (message) => {
-    const paragraphs = message.split('\n');
+    const paragraphs = message.split('*');
     const starredSections = [];
   
     paragraphs.forEach(paragraph => {
@@ -65,40 +56,31 @@ function HomePage() {
       }
     });
   
-    return starredSections;
+    return starredSections; 
   };
   
   const handleMessageData = () => {
     if (guncelMesaj && guncelMesaj.messages) {
       return guncelMesaj.messages.map((msg, index) => {
+        const isUser = msg.role === 'user'; // Flag for user messages
+  
         return (
           <div key={index} className="messageContainer">
-              <div className={msg.role === 'ai' ? 'aiBox' : 'userBox'}>
+            <div className={isUser ? 'userBox' : 'aiBox'}>
               <div className='chatHeader'>
-                  <div className='profilPhoto'>
-                    <img src={msg.role === 'ai' ? logo : user}  className='chatHeaderLogo' />
-                  </div>
-
-                  <text className={msg.role === 'ai' ? 'aiName' : 'userName'}>
-                    {msg.role === 'ai' ? 'NuruCare' : 'You'}
-                  </text>
+                <div className='profilPhoto'>
+                  <img
+                    src={isUser ? user : logo} // Use user image for user messages
+                    className='chatHeaderLogo'
+                    alt={isUser ? 'Your Profile Picture' : 'NuruCare Logo'} // Add alt text for accessibility
+                  />
+                </div>
+                <text className={isUser ? 'userName' : 'aiName'}>
+                  {isUser ? 'You' : 'NuruCare'}
+                </text>
               </div>
               <div className="messageContent">
-                {msg.message.split('\n').map((paragraph, idx) => (
-                  <p key={idx}>
-                    {paragraph.includes('') ? (
-                      paragraph.split('').map((section, idx) => {
-                        return idx % 2 === 0 ? (
-                          <strong key={idx} >{section}</strong>
-                        ) : (
-                          <span key={idx}>{section}</span>
-                        );
-                      })
-                    ) : (
-                      paragraph
-                    )}
-                  </p>
-                ))}
+                {formatMessage(msg.message)}
               </div>
             </div>
           </div>
@@ -107,8 +89,26 @@ function HomePage() {
     } else {
       return null;
     }
-  }
+  };
   
+  function formatMessage(message) {
+    const segments = message.split('*'); // ** işaretlerine göre metni böler
+    const formattedMessage = segments.map((segment, idx) => {
+        if (idx % 2 === 0) { // ** işaretleri arasındaki metni işle
+            return (
+                <div key={idx}>
+                     <strong >{segment}</strong> {/* Kalın metin */}
+                    <br/>
+                </div>
+            );
+        } else if (segment !== '') { // ** işareti yoksa ve boş değilse normal metin olarak işle
+            return <span key={idx}>{segment}</span>;
+        } else {
+            return null; // Boş segmentleri atla
+        }
+    });
+    return formattedMessage;
+}
 
   const toggleOpenClose = () => {
     setIsOpen(prevState => !prevState);
@@ -116,6 +116,7 @@ function HomePage() {
 
   const toggleHiddenBox = () => {
     setIsHiddenBoxOpen(!isHiddenBoxOpen);
+    console.log(isHiddenBoxOpen)
   };
 
   const aiActiveBox = () => {
@@ -133,6 +134,16 @@ function HomePage() {
   const al = () => {
     dispatch(getMessageData(docRefId));
   };
+
+  const AdditionalLeft =()=>{
+    setIsAdditionalContant(false)
+  }
+
+  const AdditionalRight =()=>{
+    setIsAdditionalContant(true)
+  }
+
+  
  
 
   
@@ -266,7 +277,22 @@ function HomePage() {
           <button className='secondWindow' onClick={toggleHiddenBox} ><FaBookOpen className='secondWindowButtom'/></button>
         </div>
 
-        <div className={`hiddenBox ${isHiddenBoxOpen ? 'expanded' : ''}`}>
+        <div className={`rightAdditional ${isHiddenBoxOpen ? 'expanded' : ''}`}> 
+          <div className={`rightAdditionalContainer ${isHiddenBoxOpen ? 'expanded' : ''}`}>
+
+            <div className={`rightAdditionalLink ${isHiddenBoxOpen ? 'expanded' : ''}`}>
+              <div className='rightAdditionalLinkItem'><button onClick={AdditionalLeft}>Terminal</button></div>
+              <div className='rightAdditionalLinkItem'><button onClick={AdditionalRight}>Comander</button></div>
+            </div>
+
+            <div className='rightAdditionalContent'>
+              <div className={`rightAdditionalLeftContent ${isAdditionalContant ? 'rightOpen' : ''}`}></div>
+              <div className={`rightAdditionalRightContent ${isAdditionalContant ? 'rightOpen' : ''}`}></div>
+            </div>
+          </div>
+              
+
+
         </div>
       </div> 
     </div>
