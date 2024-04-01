@@ -253,7 +253,7 @@ function HomePage() {
             <div className='RightBoxBottomInputBox'>
               <div className='inputLeft'><button ><GoPaperclip className='inputLeftIcon'/></button></div>
               <div className='inputMid'>
-                <input type="text"  
+                <textarea type="text"  
                        placeholder='Give NuruCare a task to work on ...' 
                        onChange={(e)=> setInputData(e.target.value)}
                        value={inputData}

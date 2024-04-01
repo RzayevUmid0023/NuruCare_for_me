@@ -407,7 +407,7 @@
   flex-grow: 1;
 }
 
-.inputMid input{
+.inputMid textarea{
   width: 96%;
   margin: 0px 2%;
   height: 35px;
@@ -416,9 +416,10 @@
   border: none;
   outline: none;
   font-size: 14px;
+  margin-top: 15px;
 }
 
-.inputMid input:focus + .inputLeftIcon{
+.inputMid textarea:focus + .inputLeftIcon{
   color: blue !important;
 }
 
@@ -528,7 +529,7 @@
 .rightAdditionalLeftContent{
   width: 97%;
   height: 100%;
-  background-color: #6096FF;
+  background-color: #151515;
   margin-right: 2px;
   transition: width 0.5s ease;
   
@@ -542,7 +543,7 @@
 .rightAdditionalRightContent{
   width: 1%;
   height: 100%;
-  background-color: white;
+  background-color: #151515;
   transition: width 0.5s ease;
 
 }
@@ -550,3 +551,17 @@
 .rightAdditionalRightContent.rightOpen{
     width: 97%;
 }
+
+textarea {
+  overflow: scroll;  
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
+}
+
+ 
+textarea::-webkit-scrollbar {
+  display: none;
+}
+
+
+ 
