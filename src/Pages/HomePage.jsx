@@ -3,6 +3,7 @@ import './HomePage.css';
 import logo from '../assets/logo.svg';
 import user from '../assets/user.png'
 import Suggestion from '../Components/suggestion';
+import RightAdditional from '../Components/rightAdditional';
 import Loading from '../Components/loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendMessageUser, sendMessageAi, getMessageData } from '../redux/messageSlice';
@@ -276,24 +277,13 @@ function HomePage() {
 
           <button className='secondWindow' onClick={toggleHiddenBox} ><FaBookOpen className='secondWindowButtom'/></button>
         </div>
-
-        <div className={`rightAdditional ${isHiddenBoxOpen ? 'expanded' : ''}`}> 
-          <div className={`rightAdditionalContainer ${isHiddenBoxOpen ? 'expanded' : ''}`}>
-
-            <div className={`rightAdditionalLink ${isHiddenBoxOpen ? 'expanded' : ''}`}>
-              <div className='rightAdditionalLinkItem'><button onClick={AdditionalLeft}>Terminal</button></div>
-              <div className='rightAdditionalLinkItem'><button onClick={AdditionalRight}>Comander</button></div>
-            </div>
-
-            <div className='rightAdditionalContent'>
-              <div className={`rightAdditionalLeftContent ${isAdditionalContant ? 'rightOpen' : ''}`}></div>
-              <div className={`rightAdditionalRightContent ${isAdditionalContant ? 'rightOpen' : ''}`}></div>
-            </div>
-          </div>
-              
-
-
-        </div>
+ 
+        <RightAdditional 
+              isHiddenBoxOpen={isHiddenBoxOpen}
+              AdditionalLeft={() => AdditionalLeft()}
+              AdditionalRight={() => AdditionalRight()}
+              isAdditionalContant={isAdditionalContant} 
+              messageData={messageData}/>
       </div> 
     </div>
   );

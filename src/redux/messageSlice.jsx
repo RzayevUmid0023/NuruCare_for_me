@@ -6,6 +6,7 @@ import { db } from '../../firebaseConfig';
 
 const API_KEY = 'AIzaSyC3Z892Srb66JtQOXVNBdWRpBWgMks_BBk';
 const genAI = new GoogleGenerativeAI(API_KEY)
+ 
 
 
 const initialState = {
@@ -50,6 +51,8 @@ export const sendMessageUser = createAsyncThunk('message/sendMessageUser', async
                 role: 'user',
                 message: userInput,
                 timestamp: new Date().toISOString(),
+                terminal: [],
+                images:[],
                 _id: Math.random().toString(36).substring(2, 10),
             };
             
@@ -98,6 +101,8 @@ export const sendMessageAi = createAsyncThunk('message/sendMessageAi', async (us
                     role: 'ai',
                     message: "Of course, you'll just need to provide the metric research features required on the job. These; DNA race types can be an example of physiological structure about graphical features, general design and biological adaptation.",
                     timestamp: new Date().toISOString(),
+                    terminal: [],
+                    images:[],
                     _id: Math.random().toString(36).substring(2, 10),
                 };
 
@@ -112,6 +117,8 @@ export const sendMessageAi = createAsyncThunk('message/sendMessageAi', async (us
                     role: 'ai',
                     message: "Of course, the DNA I will create will not contain potential awareness. The race inside the structure will belong to the dog type and I will take the 311.png example as the basis. Based on the visual of this example, I will analyze the adaptation rate that is not affected by external factors with biomathematics and biometric concepts. For this, I will create an SVG file and provide the DNA mutation example we created, using only an organ section example. * In this way, it will be possible to create DNA sequences and analyze adaptation rates using biometric and biomathematical concepts. I will send you the SVG file I created.",
                     timestamp: new Date().toISOString(),
+                    terminal: [],
+                    images:[],
                     _id: Math.random().toString(36).substring(2, 10),
                 };
 
@@ -126,6 +133,37 @@ export const sendMessageAi = createAsyncThunk('message/sendMessageAi', async (us
                     role: 'ai',
                     message: "The installation is complete, I will be here for more content, if you need help, just call me. Please check my interface.",
                     timestamp: new Date().toISOString(),
+                    terminal: [
+                        {
+                            geneID: 1,
+                            name: 'Mitokondriyal DNA',
+                            sequence: 'ATCGGCTAGCGATCGATCGATCGTAGCTAGCTAGCTAGCTAGCTAGCTAGCTAGCTAGC'
+                        },
+                        {
+                            geneID: 2,
+                            name: 'Melanin Üretim Geni',
+                            sequence: 'ATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG'
+                        },
+                        {
+                            geneID: 3,
+                            name: 'Kürk Rengi Belirleyici Gen',
+                            sequence: 'ATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG'
+                        },
+                        {
+                            geneID: 4,
+                            name: 'Kulak Şekli Geni',
+                            sequence: 'ATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG'
+                        },
+                        {
+                            geneID: 5,
+                            name: 'Kuyruk Uzunluğu Belirleyici Gen',
+                            sequence: 'ATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG'
+                        }
+                    ],
+                    images:[
+                        "https://i.ibb.co/DD8Ftyb/dog1.png",
+                        "https://i.ibb.co/vYRRDxk/dog2.png"
+                    ],
                     _id: Math.random().toString(36).substring(2, 10),
                 };
 
@@ -140,6 +178,8 @@ export const sendMessageAi = createAsyncThunk('message/sendMessageAi', async (us
                     role: 'ai',
                     message: "The given resources will make my tasks easier. I can assist you with this. Please wait a moment. When the process is complete, I'll inform you, and you can simply restart.",
                     timestamp: new Date().toISOString(),
+                    terminal: [],
+                    images:[],
                     _id: Math.random().toString(36).substring(2, 10),
                 };
 
@@ -154,6 +194,8 @@ export const sendMessageAi = createAsyncThunk('message/sendMessageAi', async (us
                     role: 'ai',
                     message: "Please check my interface.",
                     timestamp: new Date().toISOString(),
+                    terminal: [],
+                    images:[],
                     _id: Math.random().toString(36).substring(2, 10),
                 };
 
@@ -177,6 +219,8 @@ export const sendMessageAi = createAsyncThunk('message/sendMessageAi', async (us
                     role: 'ai',
                     message: text,
                     timestamp: new Date().toISOString(),
+                    terminal: [],
+                    images:[],
                     _id: Math.random().toString(36).substring(2, 10),
                 };
 
