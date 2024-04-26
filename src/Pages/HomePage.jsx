@@ -181,6 +181,8 @@ function HomePage() {
     } else {
       setGuncelMesaj({ ...guncelMesaj, messages: [...guncelMesaj.messages, userMessage] });
     }
+
+ 
   }
   return (
     <div className='Container'>
@@ -259,12 +261,20 @@ function HomePage() {
                        onChange={(e)=> setInputData(e.target.value)}
                        value={inputData}
                        onKeyDown={(e) => {
+
+                        if (e.shiftKey && e.key === 'Enter') {
+                          setValue(value + '\n');
+                        }
+
                         if (e.key === 'Enter') {
                           aiActiveBox();
                           tekMesajGuncelle();
                           handleMessageSend();
+                          e.preventDefault();
                         }
+                        
                       }} 
+                      
                         />
               </div>
               <div className='inputRight'>

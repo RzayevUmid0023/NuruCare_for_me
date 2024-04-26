@@ -24,12 +24,15 @@ export const sendMessageUser = createAsyncThunk('message/sendMessageUser', async
     let docRefId = state.message.docRefId;
  
  
-
+    console.log('doc ' + docRefId)
     try {
         if (docRefId === null) {
              const docRef = await addDoc(collection(db, 'chats'), {
                 messages: [{ message: userInput, timestamp: new Date().toISOString() ,_id: Math.random().toString(36).substring(2, 10), role: 'user' }]
+                
             });
+            console.log('calisdi')
+
             docRefId = docRef.id;
 
              return docRefId;
