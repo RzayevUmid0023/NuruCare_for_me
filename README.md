@@ -1,8 +1,19 @@
-# React + Vite
+### NuruCare 
+- https://nurucare.netlify.app/
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+NuruCare is an advanced web application that offers health information and AI-powered analysis. This platform provides personalized recommendations using artificial intelligence technologies for guidance on healthy living.
 
-Currently, two official plugins are available:
+The goal of the project
+NuruCare is designed to provide support to individuals regarding their health. The app offers accurate and up-to-date health collection and provides personalized counseling with artificial intelligence support.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Technologies
+The main technologies used in this project are:
+
+- React: JavaScript library used to create user graphics.
+- Firebase: Google service used for database management and authentication services.
+- Google Gemini: Providing artificial intelligence and machine development support for the Google API used.
+
+![image](https://github.com/user-attachments/assets/b30fc275-cc54-46f9-a5ae-dc02b83aa894)
+
+
+
