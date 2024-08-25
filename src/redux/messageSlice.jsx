@@ -213,7 +213,7 @@ export const sendMessageAi = createAsyncThunk('message/sendMessageAi', async (us
                 const genAI = new GoogleGenerativeAI(API_KEY);
                 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
         
-                const prompt = filteredMessages.length === 0 ? userInput : filteredMessages.map(msg => msg.parts[0].text).join('\n');
+                const prompt = (filteredMessages.length === 0 ? userInput : filteredMessages.map(msg => msg.parts[0].text).join('\n')) + '\nBir doktor gibi cevapla ve tıbbi terimlerle açıklama yap';
                 const result = await model.generateContent(prompt);
                 const response = await result.response;
                 const text = response.text();

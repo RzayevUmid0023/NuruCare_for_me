@@ -7,11 +7,12 @@ import UserStack from './UserStack';
 import app from '../../firebaseConfig';
 
 const Navigation = () => {
-  const isAuth = true; 
+  const isAuth = false; 
   return (
     <>
       
-        {isAuth ? <UserStack /> : <AuthStack />} 
+        {/* {isAuth ? <UserStack /> : <AuthStack />}  */}
+        <UserStack />
     </>
   );
 }
