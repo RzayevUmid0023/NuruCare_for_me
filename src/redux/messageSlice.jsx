@@ -4,7 +4,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { db } from '../../firebaseConfig';
 
-const API_KEY = 'AIzaSyC3Z892Srb66JtQOXVNBdWRpBWgMks_BBk';
+const API_KEY = 'AIzaSyCJI5vDyTp7ri8AeHM_PFCSDk9zp3c0Gyo';
 const genAI = new GoogleGenerativeAI(API_KEY)
  
 
