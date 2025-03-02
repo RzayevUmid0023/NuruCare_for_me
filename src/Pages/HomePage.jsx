@@ -164,6 +164,10 @@ function HomePage() {
           await dispatch(getMessageData(userDocRefId));
        } catch (error) {
         console.error('Failed to send message:', error.message);
+        // Hata durumunda kullanıcıya bilgi ver
+        setInputData('');
+        // Hata mesajını göstermek için bir state kullanabilirsiniz
+        // veya bir toast notification gösterebilirsiniz
       }
     }
   };

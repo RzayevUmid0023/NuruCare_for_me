@@ -4,10 +4,29 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { db } from '../../firebaseConfig';
 
-const API_KEY = 'AIzaSyCJI5vDyTp7ri8AeHM_PFCSDk9zp3c0Gyo';
-const genAI = new GoogleGenerativeAI(API_KEY)
- 
+const API_KEY = 'AIzaSyASjkt1XbZKgtxnlg1BvcsXevAyvpemkPQ';
+const genAI = new GoogleGenerativeAI(API_KEY);
 
+// API isteklerini sınırlandırmak için gecikme fonksiyonu
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// API çağrıları arasında en az 1 saniye beklemek için son istek zamanını takip eden değişken
+let lastRequestTime = 0;
+
+// API isteği yapmadan önce gerekirse bekleme yapan fonksiyon
+const throttleRequest = async () => {
+  const now = Date.now();
+  const timeSinceLastRequest = now - lastRequestTime;
+  const minDelay = 1000; // 1 saniye (1000 ms)
+  
+  if (timeSinceLastRequest < minDelay) {
+    // Son istekten bu yana yeterli zaman geçmediyse bekle
+    await delay(minDelay - timeSinceLastRequest);
+  }
+  
+  // Son istek zamanını güncelle
+  lastRequestTime = Date.now();
+};
 
 const initialState = {
     status: 'idle',
@@ -210,29 +229,124 @@ export const sendMessageAi = createAsyncThunk('message/sendMessageAi', async (us
             }
 /*---------------------------------------- Sonradan silinecek kisinm ------------------------------------*/
             else{
-                const genAI = new GoogleGenerativeAI(API_KEY);
-                const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-        
-                const prompt = (filteredMessages.length === 0 ? userInput : filteredMessages.map(msg => msg.parts[0].text).join('\n')) + '\nBir doktor gibi cevapla ve tıbbi terimlerle açıklama yap';
-                const result = await model.generateContent(prompt);
-                const response = await result.response;
-                const text = response.text();
+                try {
+                    // API isteği yapmadan önce gerekirse bekle
+                    await throttleRequest();
                     
-                const updatedMessage = {
-                    role: 'ai',
-                    message: text,
-                    timestamp: new Date().toISOString(),
-                    terminal: [],
-                    images:[],
-                    _id: Math.random().toString(36).substring(2, 10),
-                };
+                    // Basit sorulara önceden tanımlanmış yanıtlar
+                    const predefinedResponses = {
+                        "merhaba": "Merhaba! Size nasıl yardımcı olabilirim?",
+                        "selam": "Selam! Sağlık konusunda bir sorunuz mu var?",
+                        "nasılsın": "İyiyim, teşekkür ederim! Size nasıl yardımcı olabilirim?",
+                        "adın ne": "Ben NuruCare, sağlık konularında size yardımcı olmak için buradayım.",
+                        "kimsin": "Ben NuruCare, sağlık konularında size yardımcı olmak için tasarlanmış bir yapay zeka asistanıyım."
+                    };
+                    
+                    // Kullanıcı girdisini küçük harfe çevir ve basit yanıtları kontrol et
+                    const lowerInput = userInput.toLowerCase().trim();
+                    
+                    // Eğer basit bir soru ise ve önceden tanımlanmış yanıt varsa, API'ye gitmeden yanıt ver
+                    if (predefinedResponses[lowerInput]) {
+                        const updatedMessage = {
+                            role: 'ai',
+                            message: predefinedResponses[lowerInput],
+                            timestamp: new Date().toISOString(),
+                            terminal: [],
+                            images:[],
+                            _id: Math.random().toString(36).substring(2, 10),
+                        };
+                        
+                        await setDoc(chatRef, {
+                            messages: [...chatDoc.data().messages, updatedMessage],
+                        }, { merge: true });
+                        
+                        return docRefId;
+                    }
+                    
+                    const genAI = new GoogleGenerativeAI(API_KEY);
+                    // Doğru model adını kullan - gemini-1.5-pro veya gemini-1.0-pro
+                    let model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+            
+                    const prompt = (filteredMessages.length === 0 ? userInput : filteredMessages.map(msg => msg.parts[0].text).join('\n')) + '\nBir doktor gibi cevapla ve tıbbi terimlerle açıklama yap';
+                    
+                    // API isteğini try-catch bloğu içinde yap
+                    let result;
+                    let retryCount = 0;
+                    const maxRetries = 3;
+                    
+                    while (retryCount < maxRetries) {
+                        try {
+                            result = await model.generateContent(prompt);
+                            break; // Başarılı olursa döngüden çık
+                        } catch (error) {
+                            retryCount++;
+                            console.log(`API isteği başarısız oldu. Deneme ${retryCount}/${maxRetries}`, error.message);
+                            
+                            if (error.message && error.message.includes('404')) {
+                                // Model bulunamadı hatası, farklı bir model deneyelim
+                                console.log("Model bulunamadı, alternatif model deneniyor...");
+                                model = genAI.getGenerativeModel({ model: "gemini-1.0-pro" });
+                            } else if (error.message && error.message.includes('429')) {
+                                // Rate limit hatası alındıysa daha uzun süre bekle
+                                await delay(2000 * retryCount); // Her denemede bekleme süresini artır
+                            } else if (retryCount === maxRetries) {
+                                // Maksimum deneme sayısına ulaşıldıysa hatayı fırlat
+                                throw error;
+                            } else {
+                                // Diğer hatalar için kısa bir süre bekle
+                                await delay(1000);
+                            }
+                        }
+                    }
+                    
+                    if (!result) {
+                        throw new Error('API isteği başarısız oldu.');
+                    }
+                    
+                    const response = await result.response;
+                    const text = response.text();
+                        
+                    const updatedMessage = {
+                        role: 'ai',
+                        message: text,
+                        timestamp: new Date().toISOString(),
+                        terminal: [],
+                        images:[],
+                        _id: Math.random().toString(36).substring(2, 10),
+                    };
 
-                await setDoc(chatRef, {
-                    messages: [...chatDoc.data().messages, updatedMessage],
-                }, { merge: true });
-        
-                return docRefId;
-
+                    await setDoc(chatRef, {
+                        messages: [...chatDoc.data().messages, updatedMessage],
+                    }, { merge: true });
+            
+                    return docRefId;
+                } catch (error) {
+                    console.error('API isteği sırasında hata:', error);
+                    
+                    // Hata durumunda kullanıcıya bilgi veren bir mesaj gönder
+                    let errorMsg = "Üzgünüm, şu anda yanıt veremiyorum. Lütfen biraz sonra tekrar deneyin.";
+                    
+                    if (error.message && error.message.includes('404')) {
+                        errorMsg = "Üzgünüm, kullanmaya çalıştığım AI modeli şu anda erişilebilir değil. Teknik ekibimiz bu sorunu çözmek için çalışıyor.";
+                    } else if (error.message && error.message.includes('429')) {
+                        errorMsg = "Üzgünüm, şu anda yoğun istek nedeniyle yanıt veremiyorum. Lütfen biraz sonra tekrar deneyin.";
+                    }
+                    
+                    const errorMessage = {
+                        role: 'ai',
+                        message: errorMsg,
+                        timestamp: new Date().toISOString(),
+                        terminal: [],
+                        images:[],
+                        _id: Math.random().toString(36).substring(2, 10),
+                    };
+                    
+                    await setDoc(chatRef, {
+                        messages: [...chatDoc.data().messages, errorMessage],
+                    }, { merge: true });
+                    
+                    return docRefId;
+                }
             }
       
 
